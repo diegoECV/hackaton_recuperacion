@@ -1,0 +1,63 @@
+<!-- ============================================ -->
+<!-- LISTA DE EQUIPOS REGISTRADOS -->
+<!-- ============================================ -->
+<!-- Tabla interactiva con funciones CRUD -->
+<!-- Acciones: Visualizar, Editar y Eliminar equipos -->
+<!-- ============================================ -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Equipos</title>
+    <!-- Estilos compilados con Tailwind CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+<body class="min-h-screen bg-cover bg-center bg-fixed p-5" style="background-image: url({{ url_for('static', filename='img/fondo.jpg') }});">
+    <div class="max-w-7xl mx-auto bg-white/95 p-8 rounded-2xl shadow-2xl">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-4xl font-bold text-gray-800">Lista de Equipos</h1>
+            <div class="flex gap-3">
+                <a href="/" class="px-6 py-3 bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-lg font-bold cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+                    ← Volver al Formulario
+                </a>
+            </div>
+        </div>
+
+        <!-- Área de mensajes de feedback (éxito/error) -->
+        <div id="mensaje" class="mb-4 p-4 rounded-lg text-center font-bold hidden"></div>
+
+        <!-- ============================================ -->
+        <!-- TABLA DE EQUIPOS -->
+        <!-- ============================================ -->
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse bg-white rounded-lg overflow-hidden shadow">
+                <thead class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+                    <tr>
+                        <th class="px-4 py-3 text-left">Código</th>
+                        <th class="px-4 py-3 text-left">Tipo</th>
+                        <th class="px-4 py-3 text-left">Marca</th>
+                        <th class="px-4 py-3 text-left">Modelo</th>
+                        <th class="px-4 py-3 text-left">SO</th>
+                        <th class="px-4 py-3 text-left">Almacenamiento</th>
+                        <th class="px-4 py-3 text-left">RAM</th>
+                        <th class="px-4 py-3 text-left">Estado</th>
+                        <th class="px-4 py-3 text-left">Mantenimiento</th>
+                        <th class="px-4 py-3 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaEquipos" class="divide-y divide-gray-200">
+                    <tr>
+                        <td colspan="10" class="px-4 py-8 text-center text-gray-500">
+                            Cargando equipos...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/equipos.js') }}"></script>
+</body>
+</html>

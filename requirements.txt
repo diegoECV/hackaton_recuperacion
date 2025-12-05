@@ -1,0 +1,14 @@
+# Framework web principal
+Flask==3.1.0
+
+# Extensión MySQL para Flask
+flask-mysqldb==2.0.0
+
+# Cliente MySQL para Python
+mysqlclient==2.2.6
+
+# Servidor WSGI para producción (recomendado)
+gunicorn==21.2.0
+
+# Utilidades adicionales
+python-dateutil==2.8.2
