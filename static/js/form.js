@@ -108,17 +108,42 @@ const utils = {
 // ============================================
 // HANDLER: Gestión de modelos
 // ============================================
-// Carga modelos dinámicamente según la marca seleccionada
+// Carga modelos dinámicamente desde la API según la marca seleccionada
 const modelosHandler = {
-    cargarModelos: (marca) => {
+    cargarModelos: async (marca) => {
         utils.limpiarSelect(elementos.modelo);
         
-        if (marca && modelosPorMarca[marca]) {
-            const fragment = document.createDocumentFragment();
-            for (const modelo of modelosPorMarca[marca]) {
-                fragment.appendChild(utils.crearOpcion(modelo));
+        if (!marca) {
+            elementos.ram.value = "";
+            elementos.almacenamiento.value = "";
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/modelos/${marca.toLowerCase()}`);
+            const data = await response.json();
+            
+            if (data.ok && data.modelos) {
+                const fragment = document.createDocumentFragment();
+                for (const modelo of data.modelos) {
+                    fragment.appendChild(utils.crearOpcion(modelo.nombre));
+                }
+                elementos.modelo.appendChild(fragment);
+                
+                // Guardar especificaciones en un objeto global para acceso rápido
+                window.especificacionesModelo = {};
+                for (const modelo of data.modelos) {
+                    window.especificacionesModelo[modelo.nombre] = {
+                        ram: modelo.ram,
+                        almacenamiento: modelo.almacenamiento,
+                        procesador: modelo.procesador
+                    };
+                }
+            } else {
+                console.error('Error al cargar modelos:', data.error);
             }
-            elementos.modelo.appendChild(fragment);
+        } catch (error) {
+            console.error('Error en la carga de modelos:', error);
         }
         
         // Limpiar especificaciones cuando cambia la marca
@@ -127,8 +152,8 @@ const modelosHandler = {
     },
     
     aplicarEspecificaciones: (modelo) => {
-        const specs = especificacionesModelo[modelo];
-        if (specs) {
+        if (window.especificacionesModelo && window.especificacionesModelo[modelo]) {
+            const specs = window.especificacionesModelo[modelo];
             elementos.ram.value = specs.ram;
             elementos.almacenamiento.value = specs.almacenamiento;
         }
